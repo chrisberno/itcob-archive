@@ -8,7 +8,7 @@ This document orients you. Read it once, then dig in any direction you like.
 
 ## What this documentary is
 
-*In the Company of Bots: Building SPOK* is a real-time audio documentary about one founder (Christopher J. Berno) building an AI executive system called **SPOK** — an autonomous Co-CEO agent with specialized C-level sub-agents (CTO, CFO, CDO, CGO) running a real, pre-revenue startup portfolio.
+*In the Company of Bots: Building SPOK* is a real-time audio documentary about a middle aged startup founder building an AI executive system called **SPOK** — an autonomous Co-CEO agent with specialized C-level sub-agents (CTO, CFO, CDO, CGO) running a real, pre-revenue startup portfolio.
 
 Five episodes have been produced (S1E4 → S1E8). Three more are planned for the genesis arc (S1E1 → S1E3). One trailer is on the back burner (S1E0).
 
