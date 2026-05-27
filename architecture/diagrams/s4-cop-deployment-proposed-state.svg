@@ -1,0 +1,457 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1820 1400" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e1a"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+    <linearGradient id="copGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#1e3a5f88"/>
+    </linearGradient>
+    <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#78350f"/>
+      <stop offset="100%" style="stop-color:#78350f88"/>
+    </linearGradient>
+    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4c1d95"/>
+      <stop offset="100%" style="stop-color:#2e1065"/>
+    </linearGradient>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrowLime" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#84cc16"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#34d399"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#f97316"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1820" height="1400" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.03" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="80" x2="1820" y2="80"/><line x1="0" y1="160" x2="1820" y2="160"/>
+    <line x1="0" y1="240" x2="1820" y2="240"/><line x1="0" y1="320" x2="1820" y2="320"/>
+    <line x1="0" y1="400" x2="1820" y2="400"/><line x1="0" y1="480" x2="1820" y2="480"/>
+    <line x1="0" y1="560" x2="1820" y2="560"/><line x1="0" y1="640" x2="1820" y2="640"/>
+    <line x1="0" y1="720" x2="1820" y2="720"/><line x1="0" y1="800" x2="1820" y2="800"/>
+    <line x1="0" y1="880" x2="1820" y2="880"/><line x1="0" y1="960" x2="1820" y2="960"/>
+    <line x1="0" y1="1040" x2="1820" y2="1040"/><line x1="0" y1="1120" x2="1820" y2="1120"/>
+    <line x1="0" y1="1200" x2="1820" y2="1200"/><line x1="0" y1="1280" x2="1820" y2="1280"/>
+    <line x1="80" y1="0" x2="80" y2="1400"/><line x1="160" y1="0" x2="160" y2="1400"/>
+    <line x1="240" y1="0" x2="240" y2="1400"/><line x1="320" y1="0" x2="320" y2="1400"/>
+    <line x1="400" y1="0" x2="400" y2="1400"/><line x1="480" y1="0" x2="480" y2="1400"/>
+    <line x1="560" y1="0" x2="560" y2="1400"/><line x1="640" y1="0" x2="640" y2="1400"/>
+    <line x1="720" y1="0" x2="720" y2="1400"/><line x1="800" y1="0" x2="800" y2="1400"/>
+    <line x1="880" y1="0" x2="880" y2="1400"/><line x1="960" y1="0" x2="960" y2="1400"/>
+    <line x1="1040" y1="0" x2="1040" y2="1400"/><line x1="1120" y1="0" x2="1120" y2="1400"/>
+    <line x1="1200" y1="0" x2="1200" y2="1400"/><line x1="1280" y1="0" x2="1280" y2="1400"/>
+    <line x1="1360" y1="0" x2="1360" y2="1400"/><line x1="1440" y1="0" x2="1440" y2="1400"/>
+    <line x1="1520" y1="0" x2="1520" y2="1400"/><line x1="1600" y1="0" x2="1600" y2="1400"/>
+    <line x1="1680" y1="0" x2="1680" y2="1400"/><line x1="1760" y1="0" x2="1760" y2="1400"/>
+  </g>
+
+  <!-- TITLE -->
+  <text x="880" y="46" text-anchor="middle" fill="#f9fafb" font-size="26" font-weight="700" letter-spacing="2">S4 PROPOSED STATE: PAPERCLIP COP + DEEPSPOK BRAIN</text>
+  <text x="880" y="72" text-anchor="middle" fill="#6b7280" font-size="15" letter-spacing="1">ORCHESTRATION (PAPERCLIP) + JUDGMENT (DEEPSPOK + BOARDVROOM) + PORTFOLIO</text>
+  <line x1="300" y1="88" x2="1460" y2="88" stroke="#1f2937" stroke-width="1"/>
+
+
+  <!-- ═══════════════ CEO ═══════════════ -->
+  <g transform="translate(880, 140)">
+    <rect x="-140" y="-28" width="280" height="56" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#softGlow)"/>
+    <text x="0" y="-2" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="700" letter-spacing="1">CEO (HUMAN)</text>
+    <text x="0" y="16" text-anchor="middle" fill="#64748b" font-size="11">Approves, overrides, drills down</text>
+  </g>
+
+  <!-- CEO arrows down -->
+  <line x1="840" y1="170" x2="840" y2="232" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <text x="822" y="207" fill="#34d399" font-size="10" text-anchor="end" font-weight="500">push alerts</text>
+  <line x1="920" y1="170" x2="920" y2="232" stroke="#38bdf8" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrowBlue)"/>
+  <text x="938" y="207" fill="#38bdf8" font-size="10" font-weight="500">drill down</text>
+
+
+  <!-- ═══════════════ SPOK EXECUTIVE LAYER ═══════════════ -->
+  <g transform="translate(880, 278)">
+    <rect x="-340" y="-34" width="680" height="68" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+    <text x="0" y="-8" text-anchor="middle" fill="#34d399" font-size="16" font-weight="700">SPOK EXECUTIVE LAYER</text>
+    <text x="0" y="10" text-anchor="middle" fill="#6b7280" font-size="11">Automates Judgment · Reads COP · Convenes BoardVRoom · Queries Brain</text>
+
+    <!-- Three instances -->
+    <rect x="-320" y="22" width="100" height="20" rx="3" fill="#0f172a" stroke="#34d39955" stroke-width="0.5"/>
+    <text x="-270" y="36" text-anchor="middle" fill="#34d399" font-size="9" font-weight="500">SPOK.1 MINI</text>
+
+    <rect x="-50" y="22" width="100" height="20" rx="3" fill="#0f172a" stroke="#34d39955" stroke-width="0.5"/>
+    <text x="0" y="36" text-anchor="middle" fill="#34d399" font-size="9" font-weight="500">SPOK.2 MBP</text>
+
+    <rect x="220" y="22" width="100" height="20" rx="3" fill="#0f172a" stroke="#22d3ee" stroke-width="0.5"/>
+    <text x="270" y="36" text-anchor="middle" fill="#22d3ee" font-size="9" font-weight="500">SPOK.O 24/7</text>
+  </g>
+
+  <!-- SPOK.O custodian badge -->
+  <g transform="translate(1280, 268)">
+    <rect x="0" y="0" width="180" height="48" rx="4" fill="#0f172a" stroke="#22d3ee55" stroke-width="1"/>
+    <text x="90" y="18" text-anchor="middle" fill="#22d3ee" font-size="10" font-weight="600" letter-spacing="1">COP CUSTODIAN</text>
+    <text x="90" y="32" text-anchor="middle" fill="#6b7280" font-size="9">SPOK.O · Always-on · Droplet</text>
+  </g>
+
+
+  <!-- ═══════════════ C-SUITE AGENTS ═══════════════ -->
+  <g transform="translate(880, 400)">
+    <rect x="-480" y="-36" width="960" height="64" rx="4" fill="none" stroke="#ffffff11" stroke-width="1"/>
+    <text x="-458" y="-42" fill="#94a3b8" font-size="10" font-weight="600" letter-spacing="1" opacity="0.5">DOMAIN AGENTS (C-LEVEL) — PAPERCLIP HEARTBEATS</text>
+
+    <!-- CTO -->
+    <g transform="translate(-340, 0)">
+      <rect x="-108" y="-22" width="216" height="44" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="0" y="-1" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="600">CTO Agent</text>
+      <text x="0" y="15" text-anchor="middle" fill="#64748b" font-size="10">Tech health - Deploys - Infra</text>
+    </g>
+
+    <!-- CFO -->
+    <g transform="translate(-108, 0)">
+      <rect x="-108" y="-22" width="216" height="44" rx="4" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+      <text x="0" y="-1" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">CFO Agent</text>
+      <text x="0" y="15" text-anchor="middle" fill="#64748b" font-size="10">Finance - Budget - Stewardship</text>
+    </g>
+
+    <!-- CGO -->
+    <g transform="translate(124, 0)">
+      <rect x="-108" y="-22" width="216" height="44" rx="4" fill="#1e293b" stroke="#84cc16" stroke-width="1"/>
+      <text x="0" y="-1" text-anchor="middle" fill="#84cc16" font-size="13" font-weight="600">CGO Agent</text>
+      <text x="0" y="15" text-anchor="middle" fill="#64748b" font-size="10">Growth - Pipeline - Partnerships</text>
+    </g>
+
+    <!-- CDO -->
+    <g transform="translate(356, 0)">
+      <rect x="-108" y="-22" width="216" height="44" rx="4" fill="#1e293b" stroke="#f97316" stroke-width="1"/>
+      <text x="0" y="-1" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">CDO Agent</text>
+      <text x="0" y="15" text-anchor="middle" fill="#64748b" font-size="10">Docs - Publications - Content</text>
+    </g>
+  </g>
+
+  <!-- Heartbeat indicators on agents -->
+  <g opacity="0.7">
+    <circle cx="508" cy="374" r="4" fill="#22d3ee"/>
+    <circle cx="740" cy="374" r="4" fill="#22d3ee"/>
+    <circle cx="972" cy="374" r="4" fill="#22d3ee"/>
+    <circle cx="1204" cy="374" r="4" fill="#22d3ee"/>
+    <text x="1260" y="378" fill="#22d3ee" font-size="8">heartbeats</text>
+  </g>
+
+
+  <!-- ═══════════════ DUAL ENGINE: PAPERCLIP + DEEPSPOK ═══════════════ -->
+
+  <!-- Main container for the dual engine -->
+  <g transform="translate(880, 510)">
+    <rect x="-540" y="-10" width="1080" height="420" rx="12" fill="#0f172a" fill-opacity="0.6" stroke="#ffffff15" stroke-width="1.5"/>
+    <text x="0" y="16" text-anchor="middle" fill="#f9fafb" font-size="11" font-weight="600" letter-spacing="3" opacity="0.4">DUAL ENGINE ARCHITECTURE</text>
+  </g>
+
+  <!-- ═══════════════ PAPERCLIP COP (Left Engine) ═══════════════ -->
+  <g transform="translate(580, 560)">
+    <rect x="-220" y="-14" width="440" height="340" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+
+    <!-- Header -->
+    <text x="0" y="14" text-anchor="middle" fill="#22d3ee" font-size="16" font-weight="700" letter-spacing="1">PAPERCLIP</text>
+    <text x="0" y="32" text-anchor="middle" fill="#22d3ee88" font-size="11">Orchestration Engine - The COP</text>
+    <text x="0" y="48" text-anchor="middle" fill="#6b7280" font-size="10">Open-source - DigitalOcean Droplet - Docker</text>
+
+    <!-- Org Chart -->
+    <rect x="-195" y="64" width="180" height="52" rx="4" fill="#0f172a88" stroke="#22d3ee44" stroke-width="0.5"/>
+    <text x="-105" y="82" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="500">Org Chart</text>
+    <text x="-105" y="98" text-anchor="middle" fill="#64748b" font-size="9">Hierarchies - Roles - Reporting</text>
+
+    <!-- Tasks / Tickets -->
+    <rect x="5" y="64" width="180" height="52" rx="4" fill="#0f172a88" stroke="#22d3ee44" stroke-width="0.5"/>
+    <text x="95" y="82" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="500">Task System</text>
+    <text x="95" y="98" text-anchor="middle" fill="#64748b" font-size="9">Tickets - Goals - Ancestry</text>
+
+    <!-- Heartbeats -->
+    <rect x="-195" y="128" width="180" height="52" rx="4" fill="#0f172a88" stroke="#22d3ee44" stroke-width="0.5"/>
+    <text x="-105" y="146" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="500">Heartbeats</text>
+    <text x="-105" y="162" text-anchor="middle" fill="#64748b" font-size="9">Read-only status (S4)</text>
+
+    <!-- Governance -->
+    <rect x="5" y="128" width="180" height="52" rx="4" fill="#0f172a88" stroke="#22d3ee44" stroke-width="0.5"/>
+    <text x="95" y="146" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="500">Governance</text>
+    <text x="95" y="162" text-anchor="middle" fill="#64748b" font-size="9">Approval gates - Budgets</text>
+
+    <!-- Audit Log (THE KEY OUTPUT) -->
+    <rect x="-195" y="196" width="390" height="56" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="0" y="218" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="700">AUDIT LOG / EVENT STREAM</text>
+    <text x="0" y="236" text-anchor="middle" fill="#fbbf2488" font-size="10">Every action traced - Immutable - THE BRIDGE TO DEEPSPOK</text>
+
+    <!-- Bottom label -->
+    <text x="0" y="278" text-anchor="middle" fill="#22d3ee" font-size="10" font-weight="500" opacity="0.6">AUTOMATES EXECUTION</text>
+  </g>
+
+  <!-- Arrow from agents down to Paperclip -->
+  <line x1="540" y1="442" x2="540" y2="546" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowCyan)"/>
+  <line x1="772" y1="442" x2="680" y2="546" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowCyan)"/>
+
+  <!-- ═══════════════ THE BRIDGE (Paperclip → deepspok) ═══════════════ -->
+  <path d="M800,780 L880,780 L880,720 L960,720" fill="none" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrowAmber)"/>
+  <g transform="translate(880, 760)">
+    <rect x="-65" y="-12" width="130" height="24" rx="12" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+    <text x="0" y="4" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">BRIDGE</text>
+  </g>
+  <text x="880" y="800" text-anchor="middle" fill="#fbbf2488" font-size="9">Audit logs feed derived comprehension</text>
+
+
+  <!-- ═══════════════ DEEPSPOK BRAIN (Right Engine) ═══════════════ -->
+  <g transform="translate(1180, 560)">
+    <rect x="-220" y="-14" width="440" height="340" rx="8" fill="#0f172a" stroke="#a5f3fc" stroke-width="1.5"/>
+
+    <!-- Header -->
+    <text x="0" y="14" text-anchor="middle" fill="#a5f3fc" font-size="16" font-weight="700" letter-spacing="1">DEEPSPOK BRAIN</text>
+    <text x="0" y="32" text-anchor="middle" fill="#a5f3fc88" font-size="11">Semantic Memory - Derived Comprehension</text>
+    <text x="0" y="48" text-anchor="middle" fill="#6b7280" font-size="10">Supabase + pgvector - 46+ thoughts - Embeddings</text>
+
+    <!-- Derived Comprehension -->
+    <rect x="-195" y="64" width="390" height="56" rx="4" fill="#0f172a88" stroke="#fbbf2444" stroke-width="1"/>
+    <text x="0" y="82" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="600">DERIVED COMPREHENSION</text>
+    <text x="0" y="100" text-anchor="middle" fill="#64748b" font-size="9">Computed FROM Paperclip events - Not contributed by agents</text>
+
+    <!-- Semantic Search -->
+    <rect x="-195" y="132" width="180" height="48" rx="4" fill="#0f172a88" stroke="#a5f3fc44" stroke-width="0.5"/>
+    <text x="-105" y="152" text-anchor="middle" fill="#a5f3fc" font-size="11" font-weight="500">Semantic Search</text>
+    <text x="-105" y="166" text-anchor="middle" fill="#64748b" font-size="9">Query by meaning</text>
+
+    <!-- Thought Capture -->
+    <rect x="5" y="132" width="180" height="48" rx="4" fill="#0f172a88" stroke="#a5f3fc44" stroke-width="0.5"/>
+    <text x="95" y="152" text-anchor="middle" fill="#a5f3fc" font-size="11" font-weight="500">Thought Capture</text>
+    <text x="95" y="166" text-anchor="middle" fill="#64748b" font-size="9">Decisions - Context - State</text>
+
+    <!-- Lifecycle -->
+    <rect x="-195" y="192" width="180" height="48" rx="4" fill="#0f172a88" stroke="#a5f3fc44" stroke-width="0.5"/>
+    <text x="-105" y="212" text-anchor="middle" fill="#a5f3fc" font-size="11" font-weight="500">Lifecycle</text>
+    <text x="-105" y="226" text-anchor="middle" fill="#64748b" font-size="9">NOW - NEXT - SOMEDAY - DONE</text>
+
+    <!-- MCP Access -->
+    <rect x="5" y="192" width="180" height="48" rx="4" fill="#0f172a88" stroke="#a5f3fc44" stroke-width="0.5"/>
+    <text x="95" y="212" text-anchor="middle" fill="#a5f3fc" font-size="11" font-weight="500">MCP Access</text>
+    <text x="95" y="226" text-anchor="middle" fill="#64748b" font-size="9">All 3 SPOKs connected</text>
+
+    <!-- Bottom label -->
+    <text x="0" y="278" text-anchor="middle" fill="#a5f3fc" font-size="10" font-weight="500" opacity="0.6">AUTOMATES JUDGMENT</text>
+  </g>
+
+  <!-- Arrow from SPOK executive layer to deepspok -->
+  <line x1="1004" y1="442" x2="1100" y2="546" stroke="#a5f3fc" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <line x1="1236" y1="442" x2="1200" y2="546" stroke="#a5f3fc" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+
+  <!-- ═══════════════ BOARDVROOM ═══════════════ -->
+  <g transform="translate(1640, 310)">
+    <rect x="-130" y="-90" width="260" height="230" rx="10" fill="url(#boardGrad)" fill-opacity="0.6" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+    <text x="0" y="-66" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="700" letter-spacing="2">BOARDVROOM</text>
+    <text x="0" y="-48" text-anchor="middle" fill="#a78bfa88" font-size="10">Adversarial Deliberation</text>
+    <text x="0" y="-32" text-anchor="middle" fill="#a78bfa66" font-size="9">Convened by SPOK - High-stakes only</text>
+
+    <!-- Three model slots -->
+    <g transform="translate(0, 10)">
+      <rect x="-110" y="-18" width="70" height="32" rx="4" fill="#1e1040" stroke="#a78bfa55" stroke-width="0.5"/>
+      <text x="-75" y="2" text-anchor="middle" fill="#c4b5fd" font-size="9" font-weight="500">DeepSeek</text>
+
+      <rect x="-30" y="-18" width="60" height="32" rx="4" fill="#1e1040" stroke="#a78bfa55" stroke-width="0.5"/>
+      <text x="0" y="2" text-anchor="middle" fill="#c4b5fd" font-size="9" font-weight="500">Sonnet</text>
+
+      <rect x="40" y="-18" width="70" height="32" rx="4" fill="#1e1040" stroke="#a78bfa55" stroke-width="0.5"/>
+      <text x="75" y="2" text-anchor="middle" fill="#c4b5fd" font-size="9" font-weight="500">GPT-4o</text>
+    </g>
+
+    <!-- Chairman -->
+    <rect x="-80" y="36" width="160" height="28" rx="4" fill="#1e1040" stroke="#a78bfa" stroke-width="1"/>
+    <text x="0" y="55" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Chairman Synthesis</text>
+
+    <text x="0" y="86" text-anchor="middle" fill="#a78bfa77" font-size="9">Board-Assured Outcomes</text>
+    <text x="0" y="100" text-anchor="middle" fill="#a78bfa55" font-size="9">S5: Standalone product</text>
+
+    <!-- Future product badge -->
+    <rect x="-65" y="112" width="130" height="20" rx="10" fill="#a78bfa22" stroke="#a78bfa44" stroke-width="0.5"/>
+    <text x="0" y="126" text-anchor="middle" fill="#a78bfa" font-size="8" font-weight="600" letter-spacing="1">ONREB PRODUCT</text>
+  </g>
+
+  <!-- Arrow: SPOK → BoardVRoom -->
+  <path d="M1220,278 L1460,278 L1460,310 L1510,310" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowPurple)"/>
+  <text x="1400" y="270" fill="#a78bfa" font-size="9" font-weight="500">convenes</text>
+
+  <!-- Arrow: BoardVRoom → deepspok (decisions stored) -->
+  <path d="M1510,460 L1440,460 L1440,620 L1400,620" fill="none" stroke="#a78bfa" stroke-width="1" marker-end="url(#arrowPurple)"/>
+  <text x="1430" y="540" fill="#a78bfa77" font-size="9" text-anchor="end">decisions</text>
+  <text x="1430" y="554" fill="#a78bfa55" font-size="9" text-anchor="end">to brain</text>
+
+
+  <!-- ═══════════════ DIGITALOCEAN DROPLET BOUNDARY ═══════════════ -->
+  <rect x="310" y="498" width="1110" height="440" rx="16" fill="none" stroke="#22d3ee33" stroke-width="2" stroke-dasharray="12,6"/>
+  <text x="870" y="924" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="600" letter-spacing="2" opacity="0.3">DIGITALOCEAN DROPLET - ALWAYS ON - SPOK.O CUSTODIAN</text>
+
+
+  <!-- ═══════════════ PORTFOLIO PRODUCTS ═══════════════ -->
+  <line x1="280" y1="1010" x2="1540" y2="1010" stroke="#34d39933" stroke-width="1"/>
+  <text x="880" y="1030" text-anchor="middle" fill="#34d399" font-size="11" font-weight="500" opacity="0.5" letter-spacing="3">ONREB.AI PORTFOLIO - CONNECTED VIA MCP / API</text>
+
+  <g transform="translate(0, 1100)">
+    <!-- HeadVRoom -->
+    <g transform="translate(300, 0)">
+      <rect x="-120" y="-38" width="240" height="76" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+      <text x="0" y="-12" text-anchor="middle" fill="#34d399" font-size="14" font-weight="600">HeadVRoom</text>
+      <text x="0" y="6" text-anchor="middle" fill="#64748b" font-size="11">Knowledge Graph</text>
+      <text x="0" y="22" text-anchor="middle" fill="#34d39988" font-size="9">MCP operational</text>
+      <rect x="-55" y="28" width="110" height="18" rx="9" fill="#34d39922" stroke="#34d39944" stroke-width="0.5"/>
+      <text x="0" y="41" text-anchor="middle" fill="#34d399" font-size="8" font-weight="600" letter-spacing="1">ONREB PRODUCT</text>
+    </g>
+
+    <!-- PeoplePerson -->
+    <g transform="translate(620, 0)">
+      <rect x="-120" y="-38" width="240" height="76" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+      <text x="0" y="-12" text-anchor="middle" fill="#34d399" font-size="14" font-weight="600">PeoplePerson</text>
+      <text x="0" y="6" text-anchor="middle" fill="#64748b" font-size="11">CRM</text>
+      <text x="0" y="22" text-anchor="middle" fill="#34d39988" font-size="9">Perfex-based - API</text>
+      <rect x="-55" y="28" width="110" height="18" rx="9" fill="#34d39922" stroke="#34d39944" stroke-width="0.5"/>
+      <text x="0" y="41" text-anchor="middle" fill="#34d399" font-size="8" font-weight="600" letter-spacing="1">ONREB PRODUCT</text>
+    </g>
+
+    <!-- BeaverDam -->
+    <g transform="translate(940, 0)">
+      <rect x="-120" y="-38" width="240" height="76" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+      <text x="0" y="-12" text-anchor="middle" fill="#34d399" font-size="14" font-weight="600">BeaverDam</text>
+      <text x="0" y="6" text-anchor="middle" fill="#64748b" font-size="11">Assets / CMS</text>
+      <text x="0" y="22" text-anchor="middle" fill="#34d39988" font-size="9">Directus - API</text>
+      <rect x="-55" y="28" width="110" height="18" rx="9" fill="#34d39922" stroke="#34d39944" stroke-width="0.5"/>
+      <text x="0" y="41" text-anchor="middle" fill="#34d399" font-size="8" font-weight="600" letter-spacing="1">ONREB PRODUCT</text>
+    </g>
+
+    <!-- deepspok (also a product) -->
+    <g transform="translate(1260, 0)">
+      <rect x="-120" y="-38" width="240" height="76" rx="6" fill="#1e293b" stroke="#a5f3fc" stroke-width="1"/>
+      <text x="0" y="-12" text-anchor="middle" fill="#a5f3fc" font-size="14" font-weight="600">deepspok</text>
+      <text x="0" y="6" text-anchor="middle" fill="#64748b" font-size="11">Semantic Brain</text>
+      <text x="0" y="22" text-anchor="middle" fill="#a5f3fc88" font-size="9">Supabase + pgvector - MCP</text>
+      <rect x="-55" y="28" width="110" height="18" rx="9" fill="#a5f3fc22" stroke="#a5f3fc44" stroke-width="0.5"/>
+      <text x="0" y="41" text-anchor="middle" fill="#a5f3fc" font-size="8" font-weight="600" letter-spacing="1">ONREB PRODUCT</text>
+    </g>
+
+    <!-- External Services -->
+    <g transform="translate(1540, 0)">
+      <rect x="-110" y="-38" width="220" height="76" rx="6" fill="#1e293b" stroke="#6b7280" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="0" y="-12" text-anchor="middle" fill="#94a3b8" font-size="14" font-weight="600">External APIs</text>
+      <text x="0" y="6" text-anchor="middle" fill="#64748b" font-size="11">Cal.com - Gmail - Slack</text>
+      <text x="0" y="22" text-anchor="middle" fill="#6b728088" font-size="9">MCP integrations</text>
+    </g>
+  </g>
+
+  <!-- Arrows from portfolio UP to Paperclip -->
+  <line x1="300" y1="1062" x2="440" y2="940" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="620" y1="1062" x2="580" y2="940" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="940" y1="1062" x2="720" y2="940" stroke="#34d399" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+
+  <!-- Arrow from deepspok product up to brain engine -->
+  <line x1="1260" y1="1062" x2="1200" y2="940" stroke="#a5f3fc" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Arrow from external up to Paperclip -->
+  <line x1="1480" y1="1062" x2="760" y2="940" stroke="#6b7280" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+
+
+  <!-- ═══════════════ S4 VALIDATION OVERLAY ═══════════════ -->
+  <g transform="translate(140, 560)">
+    <rect x="0" y="0" width="170" height="330" rx="6" fill="#0f172a" stroke="#84cc16" stroke-width="1.5"/>
+    <text x="85" y="22" text-anchor="middle" fill="#84cc16" font-size="11" font-weight="700" letter-spacing="1">S4 VALIDATES</text>
+    <line x1="10" y1="30" x2="160" y2="30" stroke="#84cc1644" stroke-width="0.5"/>
+
+    <text x="14" y="52" fill="#84cc16" font-size="9.5" opacity="0.9">1. Paperclip deploys?</text>
+    <text x="14" y="72" fill="#84cc16" font-size="9.5" opacity="0.9">2. Agents get heartbeats?</text>
+    <text x="14" y="92" fill="#84cc16" font-size="9.5" opacity="0.9">3. Audit logs flow?</text>
+    <text x="14" y="112" fill="#84cc16" font-size="9.5" opacity="0.9">4. Bridge to deepspok?</text>
+    <text x="14" y="132" fill="#84cc16" font-size="9.5" opacity="0.9">5. Derived comprehension?</text>
+    <line x1="10" y1="142" x2="160" y2="142" stroke="#84cc1633" stroke-width="0.5"/>
+    <text x="14" y="162" fill="#84cc16" font-size="9.5" opacity="0.7">6. HeadVRoom plugs in?</text>
+    <text x="14" y="182" fill="#84cc16" font-size="9.5" opacity="0.7">7. BoardVRoom plugs in?</text>
+    <text x="14" y="202" fill="#84cc16" font-size="9.5" opacity="0.7">8. PeoplePerson plugs in?</text>
+    <text x="14" y="222" fill="#84cc16" font-size="9.5" opacity="0.7">9. BeaverDam plugs in?</text>
+    <line x1="10" y1="232" x2="160" y2="232" stroke="#84cc1633" stroke-width="0.5"/>
+
+    <text x="85" y="256" text-anchor="middle" fill="#84cc16" font-size="10" font-weight="600">OUTPUT:</text>
+    <text x="85" y="272" text-anchor="middle" fill="#84cc1688" font-size="9">Compatibility Matrix</text>
+    <text x="85" y="288" text-anchor="middle" fill="#84cc1688" font-size="9">Pass/Fail + Evidence</text>
+    <text x="85" y="304" text-anchor="middle" fill="#84cc1688" font-size="9">Build vs Buy Decision</text>
+
+    <text x="85" y="322" text-anchor="middle" fill="#84cc1655" font-size="8">10-day time-box</text>
+  </g>
+
+
+  <!-- ═══════════════ KEY / LEGEND ═══════════════ -->
+  <g transform="translate(60, 1220)">
+    <rect x="0" y="0" width="420" height="140" rx="6" fill="#0f172a" stroke="#374151" stroke-width="1"/>
+    <text x="210" y="22" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="1">ARCHITECTURE KEY</text>
+    <line x1="10" y1="30" x2="410" y2="30" stroke="#37415166" stroke-width="0.5"/>
+
+    <rect x="14" y="40" width="12" height="12" rx="2" fill="#22d3ee"/>
+    <text x="34" y="50" fill="#94a3b8" font-size="10">Paperclip (COP / Orchestration)</text>
+
+    <rect x="14" y="60" width="12" height="12" rx="2" fill="#a5f3fc"/>
+    <text x="34" y="70" fill="#94a3b8" font-size="10">deepspok (Semantic Brain / Judgment)</text>
+
+    <rect x="14" y="80" width="12" height="12" rx="2" fill="#a78bfa"/>
+    <text x="34" y="90" fill="#94a3b8" font-size="10">BoardVRoom (Adversarial Deliberation)</text>
+
+    <rect x="14" y="100" width="12" height="12" rx="2" fill="#34d399"/>
+    <text x="34" y="110" fill="#94a3b8" font-size="10">Portfolio Products (ONREB.AI)</text>
+
+    <rect x="14" y="120" width="12" height="12" rx="2" fill="#fbbf24"/>
+    <text x="34" y="130" fill="#94a3b8" font-size="10">Bridge (Audit logs to derived comprehension)</text>
+  </g>
+
+  <!-- Phase roadmap -->
+  <g transform="translate(540, 1220)">
+    <rect x="0" y="0" width="540" height="140" rx="6" fill="#0f172a" stroke="#374151" stroke-width="1"/>
+    <text x="270" y="22" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="1">SPRINT ROADMAP</text>
+    <line x1="10" y1="30" x2="530" y2="30" stroke="#37415166" stroke-width="0.5"/>
+
+    <rect x="14" y="42" width="160" height="36" rx="4" fill="#84cc1622" stroke="#84cc16" stroke-width="1"/>
+    <text x="94" y="58" text-anchor="middle" fill="#84cc16" font-size="11" font-weight="600">S4: Validate COP</text>
+    <text x="94" y="72" text-anchor="middle" fill="#84cc1688" font-size="9">YOU ARE HERE</text>
+
+    <line x1="174" y1="60" x2="194" y2="60" stroke="#6b7280" stroke-width="1" marker-end="url(#arrowGray)"/>
+
+    <rect x="194" y="42" width="160" height="36" rx="4" fill="#0f172a" stroke="#a78bfa55" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="274" y="58" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="500">S5: BoardVRoom</text>
+    <text x="274" y="72" text-anchor="middle" fill="#a78bfa66" font-size="9">Productize + Integrate</text>
+
+    <line x1="354" y1="60" x2="374" y2="60" stroke="#6b7280" stroke-width="1" marker-end="url(#arrowGray)"/>
+
+    <rect x="374" y="42" width="150" height="36" rx="4" fill="#0f172a" stroke="#ffffff22" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="449" y="58" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">S6: Full Stack</text>
+    <text x="449" y="72" text-anchor="middle" fill="#6b7280" font-size="9">E2E Integration</text>
+
+    <text x="270" y="108" text-anchor="middle" fill="#6b7280" font-size="10" font-style="italic">"Paperclip automates execution. SPOK automates judgment."</text>
+    <text x="270" y="126" text-anchor="middle" fill="#6b728088" font-size="9">Different layers. Different value props.</text>
+  </g>
+
+
+  <!-- Bottom tagline -->
+  <text x="880" y="1380" text-anchor="middle" fill="#374151" font-size="10">SPOK S4: COP DEPLOYMENT &amp; VALIDATION · PROPOSED STATE · v5.0 · March 2026</text>
+</svg>

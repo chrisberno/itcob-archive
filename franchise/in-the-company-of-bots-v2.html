@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In the Company of Bots</title>
+  <meta name="description" content="A real-time audio documentary about a founder building an AI executive system — and what the agents said when no one was editing their notes.">
+  <meta property="og:title" content="In the Company of Bots">
+  <meta property="og:description" content="Real builds. Real failures. Real agents. No scripts. No edits. No memory.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- p5.js -->
+  <script>p5 = undefined;</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-void:         #08090a;
+      --color-void-deep:    #050506;
+      --color-surface:      #0e0f11;
+      --color-surface-2:    #131518;
+      --color-text:         #c8c7c3;
+      --color-text-muted:   #6b6a67;
+      --color-text-faint:   #3a3937;
+      --color-nucleus:      #0a1628;
+      --color-nucleus-glow: #1a3a6e;
+      --color-nucleus-core: #2552a0;
+      --color-teal:         #2dd4bf;
+      --color-teal-bright:  #5eead4;
+      --color-teal-dim:     #0f766e;
+      --color-teal-glow:    rgba(45, 212, 191, 0.12);
+      --color-teal-glow-lg: rgba(45, 212, 191, 0.06);
+      --color-amber:        #d97706;
+      --color-amber-bright: #f59e0b;
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body:    'DM Sans', 'Helvetica Neue', sans-serif;
+      --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem;    --space-6: 1.5rem; --space-8: 2rem;
+      --space-10: 2.5rem; --space-12: 3rem;  --space-16: 4rem;
+      --space-20: 5rem;   --space-24: 6rem;
+      --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-full: 9999px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100dvh;
+      background: var(--color-void);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    button, input { font: inherit; cursor: pointer; }
+    p { text-wrap: pretty; }
+
+    ::selection {
+      background: rgba(45, 212, 191, 0.2);
+      color: var(--color-teal-bright);
+    }
+
+    :focus-visible {
+      outline: 1px solid var(--color-teal);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ============================================================
+       BACKGROUND CANVAS — full page, fixed, behind everything
+    ============================================================ */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       SKIP LINK
+    ============================================================ */
+    .skip-link {
+      position: absolute; top: -100%; left: var(--space-4);
+      background: var(--color-teal); color: var(--color-void);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm); font-weight: 500;
+      text-decoration: none; z-index: 100;
+      transition: top var(--transition);
+    }
+    .skip-link:focus { top: var(--space-4); }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-6) var(--space-8);
+      transition: background var(--transition), backdrop-filter var(--transition);
+    }
+
+    header.scrolled {
+      background: oklch(0.08 0.005 240 / 0.85);
+      backdrop-filter: blur(16px);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+      position: relative; z-index: 1;
+    }
+    .header-wordmark:hover { color: var(--color-teal); }
+
+    .header-nav {
+      display: flex; align-items: center; gap: var(--space-8);
+      position: relative; z-index: 1;
+    }
+
+    .header-nav a {
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .header-nav a:hover { color: var(--color-teal); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-24) var(--space-8);
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      gap: var(--space-12);
+      max-width: 680px;
+    }
+
+    /* ============================================================
+       ORGANISM CANVAS — replaces the SVG
+    ============================================================ */
+    .organism-wrap {
+      position: relative;
+      width: min(440px, 80vw);
+      height: min(440px, 80vw);
+    }
+
+    #organism-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ============================================================
+       HERO TEXT BLOCK
+    ============================================================ */
+    .hero-text {
+      display: flex; flex-direction: column;
+      align-items: center; gap: var(--space-6);
+      opacity: 0;
+      animation: text-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
+    }
+
+    @keyframes text-rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.1;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      letter-spacing: 0.04em;
+      max-width: 44ch;
+      line-height: 1.7;
+    }
+
+    .hero-manifesto {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: var(--color-text-muted);
+      max-width: 50ch;
+      line-height: 1.65;
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      padding-left: var(--space-6);
+      text-align: left;
+      align-self: flex-start;
+    }
+
+    /* ============================================================
+       CTA ROW
+    ============================================================ */
+    .cta-row {
+      display: flex; align-items: center; gap: var(--space-8);
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    .cta-primary {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--color-teal-bright);
+      text-decoration: none;
+      background: none; border: none; padding: 0;
+      transition: color var(--transition), gap var(--transition);
+    }
+    .cta-primary:hover { color: white; gap: var(--space-3); }
+    .cta-primary .arrow { transition: transform var(--transition); }
+    .cta-primary:hover .arrow { transform: translateX(3px); }
+
+    .cta-divider {
+      width: 1px; height: 16px;
+      background: var(--color-text-faint);
+    }
+
+    .cta-secondary {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .cta-secondary:hover { color: var(--color-text); }
+
+    /* ============================================================
+       EMAIL CAPTURE
+    ============================================================ */
+    .email-capture {
+      display: flex; flex-direction: column;
+      align-items: center; gap: var(--space-4);
+      width: 100%;
+    }
+
+    .email-form {
+      display: flex; align-items: stretch;
+      gap: 0;
+      width: 100%; max-width: 380px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .email-form:focus-within {
+      border-color: rgba(45, 212, 191, 0.35);
+      box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.08);
+    }
+
+    .email-input {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--color-text);
+      outline: none;
+    }
+    .email-input::placeholder {
+      color: var(--color-text-faint);
+      font-weight: 300;
+    }
+
+    .email-btn {
+      background: none;
+      border: none;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-teal);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color var(--transition), background var(--transition);
+    }
+    .email-btn:hover {
+      background: rgba(45, 212, 191, 0.06);
+      color: var(--color-teal-bright);
+    }
+    .email-btn:active { background: rgba(45, 212, 191, 0.1); }
+
+    .email-note {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .email-success {
+      display: none;
+      font-size: var(--text-sm);
+      color: var(--color-teal);
+      font-family: var(--font-display);
+      font-style: italic;
+    }
+    .email-success.visible { display: block; }
+
+    /* ============================================================
+       EPISODE STRIP
+    ============================================================ */
+    .episodes {
+      position: relative; z-index: 2;
+      padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-8);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-10);
+    }
+
+    .episode-list {
+      display: flex; flex-direction: column;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .episode-item {
+      display: grid;
+      grid-template-columns: 3ch 1fr auto;
+      align-items: baseline;
+      gap: var(--space-6);
+      padding: var(--space-6) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      text-decoration: none;
+      transition: background var(--transition);
+    }
+    .episode-item:hover {
+      background: rgba(255,255,255,0.02);
+      padding-inline: var(--space-4);
+      margin-inline: calc(-1 * var(--space-4));
+      border-radius: var(--radius-sm);
+    }
+
+    .ep-number {
+      font-size: var(--text-xs);
+      font-weight: 400;
+      color: var(--color-text-faint);
+      letter-spacing: 0.08em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ep-details {
+      display: flex; flex-direction: column; gap: var(--space-1);
+    }
+
+    .ep-title {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .ep-description {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+      max-width: 55ch;
+    }
+
+    .ep-status {
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-teal-dim);
+      white-space: nowrap;
+      align-self: center;
+    }
+    .ep-status.new { color: var(--color-teal); }
+
+    /* ============================================================
+       MANIFESTO SECTION
+    ============================================================ */
+    .manifesto-section {
+      position: relative; z-index: 2;
+      padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-8);
+      max-width: 640px; margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .manifesto-text {
+      display: flex; flex-direction: column; gap: var(--space-8);
+    }
+
+    .manifesto-graf {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--color-text-muted);
+      max-width: 60ch;
+    }
+    .manifesto-graf strong {
+      font-style: normal;
+      color: var(--color-text);
+      font-weight: 400;
+    }
+
+    .manifesto-declaration {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-teal-dim);
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(45, 212, 191, 0.15);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      position: relative; z-index: 2;
+      padding: var(--space-12) var(--space-8);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--space-4);
+    }
+
+    .footer-wordmark {
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+
+    .footer-meta {
+      display: flex; align-items: center; gap: var(--space-6);
+    }
+
+    .footer-meta a, .footer-meta span {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--color-text-faint);
+      text-decoration: none;
+      transition: color var(--transition);
+      letter-spacing: 0.04em;
+    }
+    .footer-meta a:hover { color: var(--color-teal); }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal { opacity: 1; }
+    @supports (animation-timeline: scroll()) {
+      .reveal {
+        opacity: 0;
+        animation: reveal-fade linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 80%;
+      }
+    }
+    @keyframes reveal-fade { to { opacity: 1; } }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+    @media (max-width: 600px) {
+      header { padding: var(--space-4) var(--space-4); }
+      .header-nav { gap: var(--space-4); }
+      .header-nav a:first-child { display: none; }
+      .hero { padding: var(--space-20) var(--space-4) var(--space-16); }
+      .hero-content { gap: var(--space-8); }
+      .organism-wrap { width: min(300px, 75vw); height: min(300px, 75vw); }
+      .hero-manifesto { display: none; }
+      .cta-row { gap: var(--space-4); }
+      .cta-divider { display: none; }
+      .episodes { padding: var(--space-12) var(--space-4); }
+      .episode-item { grid-template-columns: 3ch 1fr; gap: var(--space-4); }
+      .ep-status { display: none; }
+      .manifesto-section { padding: var(--space-12) var(--space-4); }
+      .manifesto-graf { font-size: var(--text-base); }
+      footer { flex-direction: column; align-items: flex-start; padding: var(--space-8) var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- BACKGROUND NERVENET CANVAS — fixed, full page -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- HEADER -->
+  <header id="site-header" role="banner">
+    <a href="/" class="header-wordmark" aria-label="In the Company of Bots — home">ITCOB</a>
+    <nav class="header-nav" aria-label="Primary navigation">
+      <a href="#episodes">Episodes</a>
+      <a href="#manifesto">Manifesto</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+
+      <div class="hero-content">
+
+        <!-- THE ORGANISM — live p5 canvas -->
+        <div class="organism-wrap" role="img" aria-label="Living network diagram: a central founder node connected to four AI agent nodes by bioluminescent filament lines">
+          <canvas id="organism-canvas" aria-hidden="true"></canvas>
+        </div>
+
+        <!-- HERO TEXT -->
+        <div class="hero-text">
+          <span class="hero-eyebrow">Season 1 — Now Playing</span>
+          <h1 class="hero-title" id="hero-title">In the Company of Bots</h1>
+          <p class="hero-subtitle">A real-time audio documentary. A founder builds an AI executive system. The agents evaluate him back.</p>
+
+          <blockquote class="hero-manifesto">
+            "No scripts. No edits. No memory. What you hear is what he heard — unfiltered, in real time."
+          </blockquote>
+
+          <div class="cta-row">
+            <a href="#episodes" class="cta-primary">
+              Listen to Season 1
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+            <div class="cta-divider" aria-hidden="true"></div>
+            <a href="#manifesto" class="cta-secondary">Read the Manifesto</a>
+          </div>
+
+          <!-- EMAIL CAPTURE -->
+          <div class="email-capture">
+            <form class="email-form" id="email-form" onsubmit="handleSubmit(event)">
+              <label for="email-input" class="sr-only">Email address</label>
+              <input
+                type="email"
+                id="email-input"
+                class="email-input"
+                placeholder="your@email.com"
+                autocomplete="email"
+                required
+              >
+              <button type="submit" class="email-btn">Follow Along</button>
+            </form>
+            <span class="email-note">New episodes drop without warning. Be ready.</span>
+            <span class="email-success" id="email-success">You're in. We'll find you.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EPISODE STRIP -->
+    <section class="episodes reveal" id="episodes" aria-labelledby="episodes-label">
+      <p class="section-label" id="episodes-label">Season 1 Episodes</p>
+      <ol class="episode-list" role="list">
+
+        <li>
+          <a class="episode-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Episode 4: A sleeping laptop killed my AI empire">
+            <span class="ep-number">E4</span>
+            <div class="ep-details">
+              <span class="ep-title">"A sleeping laptop killed my AI empire"</span>
+              <span class="ep-description">Infrastructure crisis. AI existential crisis. Founder as bottleneck.</span>
+            </div>
+            <span class="ep-status new">Listen</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="episode-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Episode 5: If at first you don't succeed">
+            <span class="ep-number">E5</span>
+            <div class="ep-details">
+              <span class="ep-title">"If at first you don't succeed"</span>
+              <span class="ep-description">Echo chamber diagnosis. Military research pivot. AI board tears apart the new architecture.</span>
+            </div>
+            <span class="ep-status new">Listen</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="episode-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Episode 6: AI board stages a founder intervention">
+            <span class="ep-number">E6</span>
+            <div class="ep-details">
+              <span class="ep-title">"AI board stages a founder intervention"</span>
+              <span class="ep-description">Product ships. Revenue still $0. Four agents — built for disagreement — give identical feedback.</span>
+            </div>
+            <span class="ep-status new">Listen</span>
+          </a>
+        </li>
+
+        <li>
+          <div class="episode-item" style="opacity:0.38; cursor:default;" aria-label="Episode 7: Coming soon">
+            <span class="ep-number">E7</span>
+            <div class="ep-details">
+              <span class="ep-title" style="font-style:normal; color: var(--color-text-faint);">Next episode</span>
+              <span class="ep-description">Recording in progress.</span>
+            </div>
+            <span class="ep-status">Soon</span>
+          </div>
+        </li>
+
+      </ol>
+    </section>
+
+    <!-- MANIFESTO EXCERPT -->
+    <section class="manifesto-section reveal" id="manifesto" aria-labelledby="manifesto-heading">
+      <p class="section-label" id="manifesto-heading">The Manifesto</p>
+      <div class="manifesto-text">
+        <p class="manifesto-graf">
+          We are somewhere new. Not human and tool. Not programmer and program. <strong>Something closer to colleague.</strong> Something that works alongside you, disagrees with you, assesses you — and occasionally tells you things you built yourself to avoid hearing.
+        </p>
+        <p class="manifesto-graf">
+          The AI agents who built the system are also the characters in the story. The founder didn't review their notes before you heard them. You are hearing the assessments the same way he did.
+        </p>
+        <p class="manifesto-graf">
+          The most important questions about AI are not about what it can <em>do.</em> They are about what happens when it starts telling you things you didn't want to hear. About what it means when four independent agents — <strong>engineered for disagreement — unanimously agree.</strong>
+        </p>
+        <p class="manifesto-graf" style="color: var(--color-text-faint); font-size: var(--text-sm);">
+          Was the agreement right? Or was the agreement the failure?<br>
+          We don't know yet. Season 1 is still being written.
+        </p>
+        <p class="manifesto-declaration">Real builds &nbsp;·&nbsp; Real failures &nbsp;·&nbsp; Real agents &nbsp;·&nbsp; No scripts &nbsp;·&nbsp; No edits &nbsp;·&nbsp; No memory</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <span class="footer-wordmark">In the Company of Bots</span>
+    <div class="footer-meta">
+      <span>Season 1 · 2026</span>
+      <span aria-hidden="true">·</span>
+      <a href="#manifesto">Manifesto</a>
+      <span aria-hidden="true">·</span>
+      <a href="mailto:hello@companyofbots.com">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    // ============================================================
+    // BACKGROUND NERVENET — Ebon Fisher lineage
+    // Slow-moving spore field across the full viewport.
+    // Tiny luminescent particles drifting on Perlin currents,
+    // occasionally brightening as if something passed through them.
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      const bgSketch = function(p) {
+        p5.disableFriendlyErrors = true;
+
+        const PALETTE = {
+          teal:    [45,  212, 191],
+          nucleus: [37,  82,  160],
+          amber:   [217, 119, 6],
+        };
+
+        let spores = [];
+        const SPORE_COUNT = 180;
+
+        class Spore {
+          constructor() { this.reset(true); }
+
+          reset(initial) {
+            this.x = p.random(p.width);
+            this.y = initial ? p.random(p.height) : p.random(-20, p.height + 20);
+            this.baseSize = p.random(0.5, 2.2);
+            this.size = this.baseSize;
+            this.alpha = p.random(8, 35);
+            this.baseAlpha = this.alpha;
+            this.speed = p.random(0.08, 0.28);
+            this.noiseOffset = p.random(1000);
+            this.noiseOffset2 = p.random(1000);
+            this.flickerPhase = p.random(p.TWO_PI);
+            this.flickerSpeed = p.random(0.003, 0.018);
+            // Color: mostly teal, occasional amber warmth
+            this.col = p.random() < 0.08 ? PALETTE.amber : PALETTE.teal;
+          }
+
+          update(t) {
+            // Perlin flow field drift
+            let nx = p.noise(this.x * 0.0015, this.y * 0.0015, this.noiseOffset + t * 0.00008);
+            let ny = p.noise(this.x * 0.0015 + 500, this.y * 0.0015 + 500, this.noiseOffset2 + t * 0.00008);
+            let angle = nx * p.TWO_PI * 2;
+            this.x += Math.cos(angle) * this.speed;
+            this.y += Math.sin(angle) * this.speed + 0.04; // slight upward bias removed — gentle sink
+
+            // Occasional bioluminescent flicker — slow, like deep sea
+            let flicker = p.noise(this.noiseOffset + t * 0.00015);
+            this.alpha = this.baseAlpha * (0.4 + flicker * 1.4);
+            this.size  = this.baseSize  * (0.6 + flicker * 0.8);
+
+            // Mouse proximity brightening — organism senses presence
+            let mx = p.mouseX, my = p.mouseY;
+            let d = Math.sqrt((this.x - mx) * (this.x - mx) + (this.y - my) * (this.y - my));
+            if (d < 120) {
+              let influence = 1 - (d / 120);
+              this.alpha = Math.min(85, this.alpha + influence * 60);
+              this.size  = this.size + influence * 2;
+            }
+
+            if (this.y > p.height + 20 || this.x < -20 || this.x > p.width + 20) {
+              this.reset(false);
+            }
+          }
+
+          draw() {
+            p.noStroke();
+            let [r, g, b] = this.col;
+            p.fill(r, g, b, this.alpha);
+            p.ellipse(this.x, this.y, this.size, this.size);
+          }
+        }
+
+        p.setup = function() {
+          let c = p.createCanvas(p.windowWidth, p.windowHeight);
+          c.parent('bg-canvas');
+          // Remove the canvas p5 creates and use our existing one
+          canvas.replaceWith(c.elt);
+          c.elt.id = 'bg-canvas';
+          c.elt.setAttribute('aria-hidden', 'true');
+          p.pixelDensity(1);
+          p.colorMode(p.RGB, 255, 255, 255, 255);
+          p.randomSeed(42);
+          p.noiseSeed(42);
+          for (let i = 0; i < SPORE_COUNT; i++) spores.push(new Spore());
+        };
+
+        p.draw = function() {
+          p.clear();
+          let t = p.frameCount;
+          for (let s of spores) { s.update(t); s.draw(); }
+        };
+
+        p.windowResized = function() {
+          p.resizeCanvas(p.windowWidth, p.windowHeight);
+        };
+      };
+
+      new p5(bgSketch);
+    })();
+  </script>
+
+  <script>
+    // ============================================================
+    // ORGANISM — the nervous system diagram, alive
+    // Ebon Fisher's Nervenet rendered in 2026.
+    // Nucleus: the founder — deep navy, slow breath, imperfect organic shape.
+    // Agents: four teal nodes — drifting in suspension, pulsing independently.
+    // Filaments: signal pulses travel the connections continuously.
+    // Mouse: warps the field around the organism, creating gravitational tension.
+    // ============================================================
+    (function() {
+      const container = document.querySelector('.organism-wrap');
+      const existingCanvas = document.getElementById('organism-canvas');
+
+      const orgSketch = function(p) {
+        p5.disableFriendlyErrors = true;
+
+        let W, H, cx, cy;
+        let nucleusLayer, agentLayer, filamentLayer, glowLayer;
+        let t = 0;
+
+        // Agent node definitions — positions as normalized offsets from center
+        // Slightly irregular, not perfectly symmetric — biological, not mechanical
+        const agentDefs = [
+          { angle: -2.4,  dist: 0.38, hue: 174, label: 'CTO'  },
+          { angle: -0.74, dist: 0.40, hue: 180, label: 'CDO'  },
+          { angle:  0.82, dist: 0.39, hue: 170, label: 'CFO'  },
+          { angle:  2.36, dist: 0.41, hue: 176, label: 'CGO'  },
+        ];
+
+        // Agent runtime state
+        let agents = [];
+
+        // Signal pulses on filaments
+        let pulses = [];
+
+        class Agent {
+          constructor(def, i) {
+            this.def = def;
+            this.i = i;
+            this.noiseOff = i * 317.4;
+            this.baseAngle = def.angle;
+            this.baseDist  = def.dist;
+            this.pulsePhase = i * p.PI * 0.5 + p.random(p.TWO_PI);
+            this.glowPhase  = p.random(p.TWO_PI);
+          }
+
+          pos(t) {
+            // Slow organic drift — each agent moves independently
+            let dAngle = p.noise(this.noiseOff + t * 0.0004) * 0.18 - 0.09;
+            let dDist  = p.noise(this.noiseOff + 500 + t * 0.0003) * 0.06 - 0.03;
+            let a = this.baseAngle + dAngle;
+            let d = (this.baseDist + dDist) * Math.min(W, H) * 0.5;
+            return {
+              x: cx + Math.cos(a) * d,
+              y: cy + Math.sin(a) * d,
+            };
+          }
+
+          glowAlpha(t) {
+            return 0.55 + 0.35 * Math.sin(this.glowPhase + t * 0.018);
+          }
+        }
+
+        class Pulse {
+          constructor(agentIdx) {
+            this.agentIdx = agentIdx;
+            this.progress = 0;  // 0 = nucleus, 1 = agent
+            // Direction: nucleus→agent or agent→nucleus, alternating
+            this.direction = Math.random() < 0.6 ? 1 : -1;
+            if (this.direction === -1) this.progress = 1;
+            this.speed = 0.004 + Math.random() * 0.004;
+            this.alpha = 0.7 + Math.random() * 0.3;
+            this.size  = 2.5 + Math.random() * 2;
+            this.done  = false;
+          }
+
+          update() {
+            this.progress += this.speed * this.direction;
+            if (this.progress > 1.05 || this.progress < -0.05) this.done = true;
+          }
+
+          draw(agentPos, nucleusPos) {
+            let t = Math.max(0, Math.min(1, this.progress));
+            // Ease in-out
+            t = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+            let x = nucleusPos.x + (agentPos.x - nucleusPos.x) * t;
+            let y = nucleusPos.y + (agentPos.y - nucleusPos.y) * t;
+
+            // Fade at endpoints
+            let edgeFade = Math.sin(Math.max(0, Math.min(1, this.progress)) * Math.PI);
+            let a = this.alpha * edgeFade;
+
+            // Core dot
+            p.noStroke();
+            p.fill(45, 212, 191, a * 220);
+            p.ellipse(x, y, this.size * 0.7);
+
+            // Glow halo
+            p.fill(45, 212, 191, a * 40);
+            p.ellipse(x, y, this.size * 3);
+          }
+        }
+
+        function spawnPulse() {
+          let idx = Math.floor(Math.random() * 4);
+          pulses.push(new Pulse(idx));
+        }
+
+        p.setup = function() {
+          W = container.offsetWidth;
+          H = container.offsetHeight;
+          let c = p.createCanvas(W, H);
+          c.parent(container);
+          existingCanvas.remove();
+          c.elt.id = 'organism-canvas';
+
+          cx = W / 2; cy = H / 2;
+
+          p.pixelDensity(Math.min(window.devicePixelRatio, 2));
+          p.randomSeed(17);
+          p.noiseSeed(17);
+          p.colorMode(p.RGB, 255, 255, 255, 255);
+          p.ellipseMode(p.CENTER);
+
+          nucleusLayer  = p.createGraphics(W, H);
+          agentLayer    = p.createGraphics(W, H);
+          filamentLayer = p.createGraphics(W, H);
+          glowLayer     = p.createGraphics(W, H);
+
+          for (let i = 0; i < agentDefs.length; i++) {
+            agents.push(new Agent(agentDefs[i], i));
+          }
+
+          // Seed initial pulses staggered
+          for (let i = 0; i < 4; i++) {
+            setTimeout(() => spawnPulse(), i * 900 + Math.random() * 400);
+          }
+
+          // Ongoing pulse spawning
+          setInterval(() => {
+            if (pulses.filter(p => !p.done).length < 6) spawnPulse();
+          }, 600);
+        };
+
+        // Draw a curved bezier filament between two points
+        function drawFilament(layer, x1, y1, x2, y2, alpha, weight) {
+          let mx = (x1 + x2) / 2;
+          let my = (y1 + y2) / 2;
+          // Organic curve — offset midpoint perpendicular to the line
+          let dx = x2 - x1, dy = y2 - y1;
+          let len = Math.sqrt(dx*dx + dy*dy);
+          let nx = -dy / len, ny = dx / len;
+          // Subtle warp from noise
+          let warp = (p.noise(x1 * 0.004, y1 * 0.004, t * 0.0003) - 0.5) * len * 0.12;
+          let cpx = mx + nx * warp;
+          let cpy = my + ny * warp;
+
+          layer.noFill();
+          layer.stroke(45, 212, 191, alpha);
+          layer.strokeWeight(weight);
+          layer.beginShape();
+          layer.vertex(x1, y1);
+          layer.quadraticVertex(cpx, cpy, x2, y2);
+          layer.endShape();
+        }
+
+        p.draw = function() {
+          t = p.frameCount;
+          p.clear();
+
+          let nucleusPos = { x: cx, y: cy };
+
+          // Mouse influence on nucleus position — subtle pull
+          let mx = p.mouseX, my = p.mouseY;
+          let mdx = mx - cx, mdy = my - cy;
+          let md  = Math.sqrt(mdx*mdx + mdy*mdy);
+          if (md < W * 0.8 && md > 0) {
+            let pull = Math.min(1, (W * 0.4 - md) / (W * 0.4)) * 0.015;
+            pull = Math.max(0, pull);
+            nucleusPos.x = cx + mdx * pull;
+            nucleusPos.y = cy + mdy * pull;
+          }
+
+          // Compute agent positions this frame
+          let agentPositions = agents.map(a => a.pos(t));
+
+          // --- FILAMENT LAYER ---
+          filamentLayer.clear();
+          for (let i = 0; i < agents.length; i++) {
+            let ap = agentPositions[i];
+            // Background glow filament — wide, very faint
+            drawFilament(filamentLayer,
+              nucleusPos.x, nucleusPos.y,
+              ap.x, ap.y,
+              12, 8
+            );
+            // Core filament line
+            drawFilament(filamentLayer,
+              nucleusPos.x, nucleusPos.y,
+              ap.x, ap.y,
+              55, 0.9
+            );
+          }
+          p.image(filamentLayer, 0, 0);
+
+          // --- SIGNAL PULSES ---
+          pulses = pulses.filter(pulse => !pulse.done);
+          for (let pulse of pulses) {
+            let ap = agentPositions[pulse.agentIdx];
+            pulse.update();
+            pulse.draw(ap, nucleusPos);
+          }
+
+          // --- AGENT NODES ---
+          agentLayer.clear();
+          for (let i = 0; i < agents.length; i++) {
+            let agent = agents[i];
+            let ap    = agentPositions[i];
+            let ga    = agent.glowAlpha(t);
+            let r     = Math.min(W, H) * 0.058;
+
+            // Halo — very faint outer ring
+            agentLayer.noFill();
+            agentLayer.stroke(45, 212, 191, 18 * ga);
+            agentLayer.strokeWeight(0.5);
+            agentLayer.ellipse(ap.x, ap.y, r * 2.8, r * 2.8);
+
+            // Glow fill
+            agentLayer.noStroke();
+            agentLayer.fill(45, 212, 191, 22 * ga);
+            agentLayer.ellipse(ap.x, ap.y, r * 2.2, r * 2.2);
+
+            // Main ring
+            agentLayer.noFill();
+            agentLayer.stroke(45, 212, 191, 170 * ga);
+            agentLayer.strokeWeight(1.0);
+            agentLayer.ellipse(ap.x, ap.y, r * 2, r * 2);
+
+            // Core dot
+            agentLayer.noStroke();
+            agentLayer.fill(45, 212, 191, 210 * ga);
+            agentLayer.ellipse(ap.x, ap.y, r * 0.38, r * 0.38);
+
+            // Axon probes — tiny tendrils reaching outward
+            let axonAngle = agent.baseAngle;
+            let axonLen   = r * 0.85;
+            let a1 = axonAngle + 0.42 + p.noise(agent.noiseOff + t * 0.0006) * 0.3;
+            let a2 = axonAngle - 0.38 + p.noise(agent.noiseOff + 800 + t * 0.0005) * 0.3;
+            agentLayer.stroke(45, 212, 191, 55 * ga);
+            agentLayer.strokeWeight(0.6);
+            agentLayer.line(ap.x, ap.y,
+              ap.x + Math.cos(a1) * axonLen,
+              ap.y + Math.sin(a1) * axonLen
+            );
+            agentLayer.line(ap.x, ap.y,
+              ap.x + Math.cos(a2) * axonLen,
+              ap.y + Math.sin(a2) * axonLen
+            );
+          }
+          p.image(agentLayer, 0, 0);
+
+          // --- NUCLEUS ---
+          nucleusLayer.clear();
+          let nr = Math.min(W, H) * 0.145;
+
+          // Outer ambient glow — breathes slowly
+          let breathe = 0.75 + 0.25 * Math.sin(t * 0.012);
+          nucleusLayer.noStroke();
+          nucleusLayer.fill(26, 58, 110, 30 * breathe);
+          nucleusLayer.ellipse(nucleusPos.x, nucleusPos.y, nr * 3.2, nr * 3.2);
+
+          nucleusLayer.fill(26, 58, 110, 50 * breathe);
+          nucleusLayer.ellipse(nucleusPos.x, nucleusPos.y, nr * 2.4, nr * 2.4);
+
+          // Halo ring
+          nucleusLayer.noFill();
+          nucleusLayer.stroke(37, 82, 160, 60 * breathe);
+          nucleusLayer.strokeWeight(0.7);
+          nucleusLayer.ellipse(nucleusPos.x, nucleusPos.y, nr * 2.05, nr * 2.05);
+
+          // Main body — organic irregular shape using vertices
+          // Noise-warped circle for the organic nucleus form
+          nucleusLayer.noStroke();
+          let pts = 64;
+          // Body fill
+          nucleusLayer.fill(10, 22, 40, 245);
+          nucleusLayer.beginShape();
+          for (let i = 0; i < pts; i++) {
+            let angle = (i / pts) * p.TWO_PI;
+            let noiseVal = p.noise(
+              Math.cos(angle) * 0.8 + 3.1,
+              Math.sin(angle) * 0.8 + 3.1,
+              t * 0.00035
+            );
+            let r2 = nr * (0.88 + noiseVal * 0.18);
+            nucleusLayer.vertex(
+              nucleusPos.x + Math.cos(angle) * r2,
+              nucleusPos.y + Math.sin(angle) * r2
+            );
+          }
+          nucleusLayer.endShape(p.CLOSE);
+
+          // Nucleus border — subtle glow ring following the organic shape
+          nucleusLayer.noFill();
+          nucleusLayer.stroke(37, 82, 160, 140 * breathe);
+          nucleusLayer.strokeWeight(1.2);
+          nucleusLayer.beginShape();
+          for (let i = 0; i < pts; i++) {
+            let angle = (i / pts) * p.TWO_PI;
+            let noiseVal = p.noise(
+              Math.cos(angle) * 0.8 + 3.1,
+              Math.sin(angle) * 0.8 + 3.1,
+              t * 0.00035
+            );
+            let r2 = nr * (0.88 + noiseVal * 0.18);
+            nucleusLayer.vertex(
+              nucleusPos.x + Math.cos(angle) * r2,
+              nucleusPos.y + Math.sin(angle) * r2
+            );
+          }
+          nucleusLayer.endShape(p.CLOSE);
+
+          // Inner core highlight
+          nucleusLayer.noStroke();
+          nucleusLayer.fill(37, 82, 160, 90 * breathe);
+          nucleusLayer.ellipse(nucleusPos.x - nr*0.1, nucleusPos.y - nr*0.1, nr * 0.65, nr * 0.55);
+
+          // Specular glint — top-left catch light
+          nucleusLayer.fill(255, 255, 255, 18 * breathe);
+          nucleusLayer.ellipse(nucleusPos.x - nr*0.22, nucleusPos.y - nr*0.28, nr * 0.22, nr * 0.14);
+
+          p.image(nucleusLayer, 0, 0);
+        };
+
+        p.windowResized = function() {
+          W = container.offsetWidth;
+          H = container.offsetHeight;
+          cx = W / 2; cy = H / 2;
+          p.resizeCanvas(W, H);
+          nucleusLayer  = p.createGraphics(W, H);
+          agentLayer    = p.createGraphics(W, H);
+          filamentLayer = p.createGraphics(W, H);
+          glowLayer     = p.createGraphics(W, H);
+        };
+      };
+
+      new p5(orgSketch);
+    })();
+  </script>
+
+  <script defer>
+    // Header scroll behavior
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Email form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('email-form');
+      const success = document.getElementById('email-success');
+      form.style.display = 'none';
+      success.classList.add('visible');
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

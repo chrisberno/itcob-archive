@@ -1,0 +1,18 @@
+.DS_Store
+.obsidian/
+.vscode/
+.idea/
+
+# macOS metadata
+._*
+
+# Audio masters live on Cloudflare R2 (chris@chrisberno.dev account), not in git
+*.m4a
+*.mp3
+*.wav
+
+# Local-only env / credentials (should never appear here, but defense in depth)
+.env
+.env.local
+*.secret
+credentials.md
